@@ -11,7 +11,7 @@ class ViewConcertListingTest extends TestCase
 {
     use RefreshDatabase;
     /** @test */
-    public function user_can_view_a_concert_listing()
+    public function user_can_view_a_published_concert_listing()
     {
         // Arrange
         // Create a concert
@@ -20,6 +20,7 @@ class ViewConcertListingTest extends TestCase
             'title' => 'The Red Cord',
             'subtitle' => 'with Animosity and Lethargy',
             'date' => Carbon::parse("February 2, 2021 , 8:00pm"),
+            'published_at' => Carbon::parse("-1 week"),
             'ticket_price' => 3250,
             'venue' => 'The Mosh pit',
             'address' => '123, example lane',
@@ -48,8 +49,22 @@ class ViewConcertListingTest extends TestCase
         $this->see("ON");
         $this->see("17916");
         $this->see("some additional info");
+
         // $response = $this->get('/');
 
         // $response->assertStatus(200);
+    }
+
+    /** @test */
+    public function user_cannot_view_unpublished_concert_listing()
+    {
+        $concert = Concert::factory()->create([
+            'published_at' => null
+        ]);
+
+
+        $this->get("/concerts/" . $concert->id);
+
+        $this->assertResponseStatus(404);
     }
 }
