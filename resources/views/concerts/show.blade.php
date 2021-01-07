@@ -1,8 +1,8 @@
 <h1>{{ $concert->title }}</h1>
 <p>{{ $concert->subtitle }}</p>
-<p>{{ $concert->date->format('F j, Y') }}</p>
-<p>Door at {{ $concert->date->format('g:ia') }}</p>
-<p>{{ number_format($concert->ticket_price / 100 , 2) }}</p>
+<p>{{ $concert->formatted_date }}</p>
+<p>Door at {{ $concert->formatted_start_time }}</p>
+<p>{{ $concert->ticket_price_in_dollars }}</p>
 <p>{{ $concert->venue }}</p>
 <p>{{ $concert->address }}</p>
 <p>{{ $concert->city }}</p>
